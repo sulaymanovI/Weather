@@ -1,0 +1,91 @@
+<!-- templates/weather/weather.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h2, h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .weather-info {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .weather-info p {
+            font-size: 18px;
+            margin-top: 0;
+        }
+        .weather-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .weather-info li {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Введите город</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Получить погоду</button>
+    </form>
+
+    {% if combined_data %}
+        <div class="weather-info">
+            <h3>Данные о погоде для {{ form.cleaned_data.city }}:</h3>
+            <p>Температура (на высоте 2 м) на следующие часы:</p>
+            <ul>
+                {% for time, temperature in combined_data %}
+                    <li>{{ time }}: {{ temperature }} °C</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% elif error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
