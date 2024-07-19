@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import CityForm
 from .models import City
 import requests
-
+from .api import my_api
 
 def get_weather(request):
     
@@ -38,7 +38,7 @@ def get_weather(request):
 
 
 def get_coordinates(city):
-    api_key = '13e4c4365b7f46dca32a4c8bc0c7fd3e'
+    api_key = my_api
     url = f'https://api.opencagedata.com/geocode/v1/json?q={city}&key={api_key}'
     response = requests.get(url)
 

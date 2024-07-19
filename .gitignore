@@ -164,3 +164,4 @@ cython_debug/
 
 Weather/__pycache__
 Weather/migrations
+Weather/api.py
